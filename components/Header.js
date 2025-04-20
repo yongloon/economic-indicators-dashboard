@@ -1,66 +1,73 @@
 import React from 'react';
 
-/**
- * Dashboard Header Component (Responsive)
- *
- * - Full-width, 64px tall, dark background header.
- * - Left-aligned bold white title.
- * - Responsive padding: 32px (default), 16px on small screens.
- * - Semantic header and h1 tags for accessibility.
- * - Easily extendable for navigation or user actions.
- */
-const headerStyle = {
-  width: '100%',
-  height: '64px',
-  background: '#18181b',
-  display: 'flex',
-  alignItems: 'center',
-  padding: '0 32px',
-  boxSizing: 'border-box',
-  position: 'sticky',
-  top: 0,
-  zIndex: 1000,
-};
-
-/**
- * Responsive style injection for header padding using a media query.
- * This approach creates a <style> tag once per mount and cleans up on unmount.
- */
-const ResponsiveHeaderStyle = () => (
-  <style>
-    {`
-      @media (max-width: 600px) {
-        .dashboard-header {
-          padding-left: 16px !important;
-          padding-right: 16px !important;
-        }
-      }
-    `}
-  </style>
-);
+const navLinks = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Data Sources', href: '/sources' },
+];
 
 const Header = () => (
-  <>
-    <ResponsiveHeaderStyle />
-    <header
-      className="dashboard-header"
-      style={headerStyle}
-      data-testid="dashboard-header"
-    >
-      <h1
-        style={{
-          color: '#fff',
-          fontSize: '24px',
-          fontWeight: 'bold',
-          letterSpacing: '0.5px',
-          margin: 0,
-        }}
-      >
-        Dashboard
+  <header style={{
+    width: '100%',
+    height: '64px',
+    background: '#18181b',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '0 32px',
+    boxSizing: 'border-box',
+    position: 'sticky',
+    top: 0,
+    zIndex: 1000
+  }}>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <span style={{
+        fontSize: '2rem',
+        marginRight: 12,
+        color: '#3b82f6'
+      }}>📊</span>
+      <h1 style={{
+        color: '#fff',
+        fontSize: '24px',
+        fontWeight: 'bold',
+        letterSpacing: '0.5px',
+        margin: 0
+      }}>
+        Economic Dashboard
       </h1>
-      {/* Future: Add navigation or user actions here */}
-    </header>
-  </>
+    </div>
+    <nav>
+      {navLinks.map(link => (
+        <a
+          key={link.name}
+          href={link.href}
+          style={{
+            color: '#bdbdbd',
+            margin: '0 16px',
+            textDecoration: 'none',
+            fontWeight: 500,
+            fontSize: '1rem'
+          }}
+        >
+          {link.name}
+        </a>
+      ))}
+    </nav>
+    <div>
+      <span style={{
+        display: 'inline-block',
+        width: 36,
+        height: 36,
+        borderRadius: '50%',
+        background: '#232326',
+        color: '#fff',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '1.3rem'
+      }}>👤</span>
+    </div>
+  </header>
 );
 
 export default Header;
