@@ -3,62 +3,26 @@ import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 /**
- * Modal for adding or editing a user.
- * @param {Object} props
- * @param {Object|null} props.user - User object for editing, or null for adding.
- * @param {Function} props.onSave - Callback to save user.
- * @param {Function} props.onClose - Callback to close modal.
+ * UserModal component for adding/editing users.
+ * Accessible modal dialog with form fields for Name, Email, Status.
+ * Props:
+ *   user: user object to edit (null for add)
+ *   onSave: function(user) => void
+ *   onClose: function() => void
  */
-function UserModal({ user, onSave, onClose }) {
+const UserModal = ({ user, onSave, onClose }) => {
   const [form, setForm] = useState({
-    name: "",
-    email: "",
-    status: "Active",
+    name: user ? user.name : "",
+    email: user ? user.email : "",
+    status: user ? user.status : "Active",
   });
   const [error, setError] = useState("");
-  const firstInputRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
-    if (user) {
-      setForm({ name: user.name, email: user.email, status: user.status });
-    } else {
-      setForm({ name: "", email: "", status: "Active" });
-    }
-    setError("");
-    // Focus first input on open
-    if (firstInputRef.current) {
-      firstInputRef.current.focus();
-    }
-  }, [user]);
-
-  // Trap focus inside modal
-  useEffect(() => {
-    const handleTab = (e) => {
-      const focusable = document.querySelectorAll(
-        ".modal input, .modal select, .modal button, .modal [tabindex]:not([tabindex='-1'])"
-      );
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.key === "Tab") {
-        if (e.shiftKey) {
-          if (document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-          }
-        } else {
-          if (document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-          }
-        }
-      }
-      if (e.key === "Escape") {
-        onClose();
-      }
-    };
-    document.addEventListener("keydown", handleTab);
-    return () => document.removeEventListener("keydown", handleTab);
-  }, [onClose]);
+    // Focus first input for accessibility
+    if (inputRef.current) inputRef.current.focus();
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -67,64 +31,90 @@ function UserModal({ user, onSave, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Simple validation
-    if (!form.name.trim() || !form.email.trim()) {
+    if (!form.name || !form.email) {
       setError("Name and Email are required.");
       return;
     }
-    // Email format check
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email)) {
-      setError("Invalid email format.");
+    // Email regex (basic)
+    if (!/^\S+@\S+\.\S+$/.test(form.email)) {
+      setError("Invalid email address.");
       return;
     }
     setError("");
     onSave({ ...user, ...form });
   };
 
+  // ESC key closes modal
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [onClose]);
+
   return (
-    <div className="modal-overlay" role="dialog" aria-modal="true">
-      <div className="modal">
+    <div className="modal-backdrop" role="dialog" aria-modal="true">
+      <form className="modal" onSubmit={handleSubmit}>
+        <button
+          type="button"
+          className="modal-close"
+          aria-label="Close"
+          onClick={onClose}
+        >
+          ×
+        </button>
         <h2>{user ? "Edit User" : "Add User"}</h2>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Name
-            <input
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              ref={firstInputRef}
-              required
-            />
-          </label>
-          <label>
-            Email
-            <input
-              name="email"
-              type="email"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <label>
-            Status
-            <select name="status" value={form.status} onChange={handleChange}>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-          </label>
-          {error && <div className="form-error" role="alert">{error}</div>}
-          <div className="modal-actions">
-            <button type="submit" className="btn btn-primary">
-              {user ? "Save Changes" : "Add User"}
-            </button>
-            <button type="button" className="btn btn-secondary" onClick={onClose}>
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
+        <label>
+          Name
+          <input
+            ref={inputRef}
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            required
+            aria-required="true"
+          />
+        </label>
+        <label>
+          Email
+          <input
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+            aria-required="true"
+            type="email"
+          />
+        </label>
+        <label>
+          Status
+          <select
+            name="status"
+            value={form.status}
+            onChange={handleChange}
+          >
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </label>
+        {error && <div style={{ color: "#ef4444", marginTop: 8 }}>{error}</div>}
+        <div style={{ marginTop: 24, textAlign: "right" }}>
+          <button
+            type="button"
+            className="btn-delete"
+            style={{ marginRight: 8 }}
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+          <button className="btn-add" type="submit">
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   );
-}
+};
 
 export default UserModal;
