@@ -1,19 +1,18 @@
-/* App.css - Basic styles for mock data admin interface */
+/* App.css - Styles for Economic Indicators Dashboard mock admin interface */
 
 body {
-  margin: 0;
-  font-family: Inter, Arial, sans-serif;
+  font-family: 'Inter', Arial, sans-serif;
   background: #ffffff;
   color: #111827;
+  margin: 0;
 }
 
 .app-layout {
   display: flex;
-  flex-direction: row;
   min-height: 100vh;
 }
 
-.header {
+.app-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -25,154 +24,210 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
-  z-index: 1000;
+  z-index: 100;
 }
 
-.logo {
+.header-logo {
   font-size: 24px;
   font-weight: bold;
+  letter-spacing: 1px;
 }
 
-.avatar {
-  background: #10b981;
-  color: #fff;
+.header-avatar img {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
+  border: 2px solid #fff;
 }
 
 .sidebar {
   width: 220px;
   background: #f1f5f9;
   padding-top: 64px;
+  min-height: 100vh;
   position: fixed;
-  top: 0;
   left: 0;
+  top: 0;
   bottom: 0;
-  z-index: 900;
+  box-shadow: 1px 0 0 #e5e7eb;
+  z-index: 10;
 }
 
-.sidebar nav ul {
+.sidebar-nav {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.sidebar nav ul li {
-  padding: 16px;
+.sidebar-nav li {
+  padding: 16px 24px;
   font-size: 16px;
   cursor: pointer;
+  color: #111827;
 }
 
-.sidebar nav ul li.active {
+.sidebar-nav li.active,
+.sidebar-nav li:hover {
   background: #2563eb;
   color: #fff;
-  font-weight: 500;
+  border-radius: 4px;
 }
 
 .main-content {
   margin-left: 220px;
-  padding: 96px 32px 32px 32px;
+  margin-top: 64px;
+  padding: 32px;
   flex: 1;
+  background: #fff;
+  min-height: calc(100vh - 64px);
 }
 
-.actions {
-  margin-bottom: 16px;
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
 }
 
-.add-btn {
+.table th, .table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table th {
+  background: #f1f5f9;
+  font-weight: 600;
+}
+
+.status-active {
+  color: #10b981;
+  font-weight: 500;
+}
+
+.status-inactive {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.button {
   background: #2563eb;
   color: #fff;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
+  font-size: 15px;
   font-weight: 500;
   text-transform: uppercase;
   cursor: pointer;
-}
-
-.user-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-}
-
-.user-table th, .user-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.user-table th {
-  background: #f1f5f9;
-  font-weight: 600;
-}
-
-.edit-btn {
-  background: #10b981;
-  color: #fff;
-  border: none;
   margin-right: 8px;
-  padding: 8px 14px;
-  border-radius: 4px;
-  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.delete-btn {
+.button:last-child {
+  margin-right: 0;
+}
+
+.button:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.button-delete {
   background: #ef4444;
-  color: #fff;
+}
+
+.button-edit {
+  background: #10b981;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.pagination button {
+  background: #f1f5f9;
+  color: #2563eb;
   border: none;
   padding: 8px 14px;
   border-radius: 4px;
+  font-size: 15px;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
-.modal {
+.pagination button.active,
+.pagination button:hover {
+  background: #2563eb;
+  color: #fff;
+}
+
+.modal-backdrop {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.2);
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
 }
 
-.modal-content {
+.modal {
   background: #fff;
-  padding: 32px;
+  padding: 32px 24px;
   border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
   min-width: 320px;
+  max-width: 90vw;
+  position: relative;
 }
 
-.modal-actions {
-  margin-top: 24px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #6b7280;
+  cursor: pointer;
 }
 
 @media (max-width: 800px) {
   .sidebar {
-    width: 60px;
+    width: 64px;
+    padding-top: 64px;
+  }
+  .sidebar-nav li {
+    padding: 16px 8px;
+    font-size: 14px;
   }
   .main-content {
-    margin-left: 60px;
-    padding: 96px 8px 8px 8px;
+    margin-left: 64px;
+    padding: 16px;
   }
 }
 
 @media (max-width: 600px) {
+  .app-header {
+    padding: 0 12px;
+  }
   .sidebar {
-    display: none;
+    position: absolute;
+    left: -220px;
+    transition: left 0.3s;
+  }
+  .sidebar.open {
+    left: 0;
   }
   .main-content {
     margin-left: 0;
-    padding: 80px 4px 4px 4px;
+    padding: 8px;
   }
-  .header {
-    padding: 0 8px;
+  .table th, .table td {
+    padding: 8px 8px;
+    font-size: 13px;
   }
 }
