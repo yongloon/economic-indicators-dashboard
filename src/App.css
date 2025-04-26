@@ -1,0 +1,178 @@
+/* App.css - Basic styles for mock data admin interface */
+
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: #ffffff;
+  color: #111827;
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: #2563eb;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.avatar {
+  background: #10b981;
+  color: #fff;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.sidebar {
+  width: 220px;
+  background: #f1f5f9;
+  padding-top: 64px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 900;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav ul li {
+  padding: 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.sidebar nav ul li.active {
+  background: #2563eb;
+  color: #fff;
+  font-weight: 500;
+}
+
+.main-content {
+  margin-left: 220px;
+  padding: 96px 32px 32px 32px;
+  flex: 1;
+}
+
+.actions {
+  margin-bottom: 16px;
+}
+
+.add-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.user-table th, .user-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.user-table th {
+  background: #f1f5f9;
+  font-weight: 600;
+}
+
+.edit-btn {
+  background: #10b981;
+  color: #fff;
+  border: none;
+  margin-right: 8px;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 32px;
+  border-radius: 8px;
+  min-width: 320px;
+}
+
+.modal-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+@media (max-width: 800px) {
+  .sidebar {
+    width: 60px;
+  }
+  .main-content {
+    margin-left: 60px;
+    padding: 96px 8px 8px 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar {
+    display: none;
+  }
+  .main-content {
+    margin-left: 0;
+    padding: 80px 4px 4px 4px;
+  }
+  .header {
+    padding: 0 8px;
+  }
+}
